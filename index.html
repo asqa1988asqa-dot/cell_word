@@ -1,0 +1,401 @@
+<!DOCTYPE html>
+<html lang="ar" dir="rtl">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>🔬 عالم الخلية - مورد تعليمي مفتوح</title>
+<link href="https://fonts.googleapis.com/css2?family=Tajawal:wght@400;500;700;900&display=swap" rel="stylesheet">
+<style>
+:root{--primary:#0d7377;--primary-dark:#0a5c5f;--secondary:#14ffec;--accent:#ffc93c;--bg:#f5f7fa;--surface:#fff;--text:#1a1a1a;--muted:#555;--border:#e0e0e0;--success:#2ecc71;--error:#e74c3c;--warning:#f39c12;--radius:12px;--shadow:0 4px 16px rgba(0,0,0,.1)}
+*{box-sizing:border-box;margin:0;padding:0}
+body{font-family:'Tajawal',system-ui,sans-serif;font-size:17px;line-height:1.7;background:var(--bg);color:var(--text);min-height:100vh}
+body.high-contrast{--bg:#000;--surface:#111;--text:#fff;--muted:#ddd;--border:#444;--primary:#00e0ff}
+body.font-lg{font-size:20px}
+body.font-xl{font-size:23px}
+header.toolbar{display:flex;justify-content:space-between;align-items:center;padding:10px 20px;background:var(--surface);box-shadow:0 2px 8px rgba(0,0,0,.06);position:sticky;top:0;z-index:100;flex-wrap:wrap;gap:10px}
+.brand{display:flex;align-items:center;gap:8px;font-weight:900;font-size:1.3rem;color:var(--primary)}
+nav.main-nav{display:flex;gap:5px;flex-wrap:wrap}
+.nav-btn{background:transparent;border:2px solid transparent;padding:7px 13px;border-radius:10px;cursor:pointer;font-family:inherit;font-size:.95rem;color:var(--text);font-weight:500}
+.nav-btn:hover{background:rgba(13,115,119,.1)}
+.nav-btn.active{background:var(--primary);color:#fff}
+.access-tools{display:flex;gap:4px;flex-wrap:wrap}
+.access-tools button{background:var(--bg);border:1px solid var(--border);border-radius:8px;padding:0 10px;height:36px;cursor:pointer;font-weight:700;font-family:inherit;color:var(--text);font-size:.85rem}
+.access-tools button:hover{background:var(--primary);color:#fff}
+.btn-admin{background:var(--warning)!important;color:#fff!important;text-decoration:none;display:inline-flex;align-items:center;padding:0 12px;height:36px;border-radius:8px;font-weight:700;font-size:.85rem}
+.view{padding:28px 20px;max-width:1200px;margin:0 auto}
+.view[hidden]{display:none}
+h2.section-title{color:var(--primary);font-size:1.6rem;margin-bottom:16px}
+.hero{text-align:center;padding:36px 20px;background:linear-gradient(135deg,#e0f7fa,#f1f8e9);border-radius:var(--radius);box-shadow:var(--shadow)}
+.hero h2{font-size:2rem;color:var(--primary);margin-bottom:14px}
+.lead{font-size:1.1rem;max-width:720px;margin:0 auto 22px;color:var(--muted)}
+.meta-cards{display:grid;grid-template-columns:repeat(auto-fit,minmax(220px,1fr));gap:14px;margin:22px 0}
+.meta-card{background:var(--surface);padding:18px;border-radius:var(--radius);box-shadow:var(--shadow);text-align:right}
+.meta-card h3{color:var(--primary);margin-bottom:8px;font-size:1.05rem}
+.cta{background:var(--primary);color:#fff;border:none;padding:13px 30px;border-radius:var(--radius);font-size:1.05rem;font-family:inherit;cursor:pointer;font-weight:700}
+.cta:hover{background:var(--primary-dark)}
+.explore-layout{display:grid;grid-template-columns:280px 1fr;gap:20px;margin-top:20px}
+@media(max-width:768px){.explore-layout{grid-template-columns:1fr}}
+.organelle-list{display:flex;flex-direction:column;gap:6px;background:var(--surface);padding:14px;border-radius:var(--radius);box-shadow:var(--shadow);height:fit-content}
+.organelle-btn{display:flex;align-items:center;gap:10px;padding:11px 14px;background:transparent;border:1px solid var(--border);border-radius:8px;cursor:pointer;text-align:right;font-family:inherit;font-size:.98rem;color:var(--text);font-weight:500}
+.organelle-btn:hover,.organelle-btn.active{background:var(--primary);color:#fff;border-color:var(--primary)}
+.organelle-detail{background:var(--surface);padding:26px;border-radius:var(--radius);box-shadow:var(--shadow);min-height:420px}
+.organelle-detail h3{color:var(--primary);margin-bottom:14px;font-size:1.5rem}
+.func-box{background:#f0f8ff;padding:12px 16px;border-right:4px solid var(--primary);border-radius:6px;margin:14px 0}
+.fact-box{background:#fff8e1;padding:12px 16px;border-right:4px solid var(--accent);border-radius:6px;margin:12px 0}
+.sim-toolbar{display:flex;gap:8px;flex-wrap:wrap;margin:16px 0;padding:10px;background:var(--surface);border-radius:var(--radius);box-shadow:var(--shadow)}
+.sim-toolbar button{padding:8px 15px;background:var(--bg);border:1px solid var(--border);border-radius:8px;cursor:pointer;font-family:inherit;color:var(--text);font-weight:500}
+.sim-toolbar button:hover,.sim-toolbar button.active{background:var(--primary);color:#fff}
+#simCanvas{width:100%;height:480px;background:radial-gradient(circle at center,#1a1a2e,#0f0f1a);border-radius:var(--radius);box-shadow:var(--shadow);display:block;cursor:grab}
+.sim-hint{text-align:center;color:var(--muted);margin-top:10px;font-size:.92rem}
+.assess-top{display:flex;align-items:center;gap:14px;margin-bottom:20px}
+.progress-wrap{flex:1;height:14px;background:var(--border);border-radius:8px;overflow:hidden}
+.progress-fill{height:100%;width:0;background:linear-gradient(90deg,var(--primary),var(--secondary));transition:width .5s ease;border-radius:8px}
+#progressText{font-weight:700;color:var(--primary);min-width:50px}
+.q-card{background:var(--surface);padding:22px;border-radius:var(--radius);box-shadow:var(--shadow);margin-bottom:14px}
+.q-card h4{color:var(--primary);margin-bottom:14px;font-size:1.1rem}
+.options{display:flex;flex-direction:column;gap:9px}
+.option-btn{padding:12px 16px;background:var(--bg);border:2px solid var(--border);border-radius:8px;cursor:pointer;text-align:right;font-family:inherit;font-size:.98rem;color:var(--text);font-weight:500}
+.option-btn:hover:not(:disabled){border-color:var(--primary)}
+.option-btn.correct{background:#d4edda;border-color:var(--success);color:#155724}
+.option-btn.wrong{background:#f8d7da;border-color:var(--error);color:#721c24}
+.option-btn:disabled{cursor:not-allowed;opacity:.85}
+.quiz-finish{background:var(--surface);padding:26px;border-radius:var(--radius);box-shadow:var(--shadow);text-align:center}
+.score-big{font-size:3.5rem;color:var(--primary);font-weight:900;display:block;margin:14px 0}
+#reflectionForm{display:flex;flex-direction:column;gap:14px;max-width:720px;margin:0 auto}
+#reflectionForm label{font-weight:700;color:var(--primary)}
+#reflectionForm textarea{padding:12px;border:2px solid var(--border);border-radius:8px;font-family:inherit;font-size:1rem;background:var(--surface);color:var(--text)}
+#reflectionForm textarea:focus{outline:none;border-color:var(--primary)}
+.form-actions{display:flex;gap:10px;flex-wrap:wrap}
+.btn-secondary{background:var(--surface);color:var(--primary);border:2px solid var(--primary);padding:11px 22px;border-radius:var(--radius);cursor:pointer;font-family:inherit;font-weight:700;font-size:1rem}
+.btn-secondary:hover{background:var(--primary);color:#fff}
+footer{text-align:center;padding:22px;background:var(--surface);color:var(--muted);font-size:.9rem;border-top:1px solid var(--border);margin-top:40px}
+footer a{color:var(--primary);text-decoration:none;font-weight:500}
+.loading{text-align:center;padding:40px;color:var(--muted);font-size:1.1rem}
+*:focus-visible{outline:3px solid var(--accent);outline-offset:2px}
+</style>
+</head>
+<body>
+
+<header class="toolbar" role="banner">
+  <div class="brand"><span>🔬</span><span>عالم الخلية</span></div>
+  <nav class="main-nav">
+    <button class="nav-btn active" data-view="home">🏠 الرئيسية</button>
+    <button class="nav-btn" data-view="explore">🔍 استكشاف</button>
+    <button class="nav-btn" data-view="simulate">🧬 محاكاة</button>
+    <button class="nav-btn" data-view="assess">📝 تقويم</button>
+    <button class="nav-btn" data-view="reflect">💭 تأمل</button>
+    <button class="nav-btn" data-view="about">ℹ️ عن المورد</button>
+  </nav>
+  <div class="access-tools">
+    <button id="fontUp" title="تكبير">A+</button>
+    <button id="fontDown" title="تصغير">A-</button>
+    <button id="contrast" title="تباين">🌓</button>
+    <a href="/admin/" class="btn-admin">✏️ تحرير المحتوى</a>
+  </div>
+</header>
+
+<main id="mainContent">
+  <div id="loading" class="loading">⏳ جاري تحميل المحتوى...</div>
+
+  <section id="view-home" class="view" hidden>
+    <div class="hero">
+      <h2 id="heroTitle"></h2>
+      <p class="lead" id="heroLead"></p>
+      <div class="meta-cards" id="metaCards"></div>
+      <button class="cta" data-goto="explore">🚀 ابدأ الرحلة</button>
+    </div>
+  </section>
+
+  <section id="view-explore" class="view" hidden>
+    <h2 class="section-title">🔍 استكشاف عضيات الخلية</h2>
+    <div class="explore-layout">
+      <aside class="organelle-list" id="organelleList"></aside>
+      <article class="organelle-detail" id="organelleDetail">
+        <h3>اختر عضية من القائمة</h3>
+      </article>
+    </div>
+  </section>
+
+  <section id="view-simulate" class="view" hidden>
+    <h2 class="section-title">🧬 المحاكاة التفاعلية</h2>
+    <div class="sim-toolbar">
+      <button class="active" data-cell="plant">🌱 خلية نباتية</button>
+      <button data-cell="animal">🐾 خلية حيوانية</button>
+      <button id="btnRotate">🔄 تدوير</button>
+      <button id="btnReset">↺ إعادة</button>
+    </div>
+    <canvas id="simCanvas"></canvas>
+    <p class="sim-hint">💡 اسحب للتدوير.</p>
+  </section>
+
+  <section id="view-assess" class="view" hidden>
+    <h2 class="section-title">📝 التقويم التكيفي</h2>
+    <div class="assess-top">
+      <div class="progress-wrap"><div class="progress-fill" id="progressFill"></div></div>
+      <span id="progressText">0%</span>
+    </div>
+    <div id="quizContainer"></div>
+  </section>
+
+  <section id="view-reflect" class="view" hidden>
+    <h2 class="section-title">💭 دفتر التأمل</h2>
+    <form id="reflectionForm">
+      <label for="r1">ما أهم فكرة تعلمتها اليوم؟</label>
+      <textarea id="r1" rows="3" required></textarea>
+      <label for="r2">ما العضية التي أثارت فضولك؟</label>
+      <textarea id="r2" rows="3"></textarea>
+      <label for="r3">كيف تربطها بحياتك؟</label>
+      <textarea id="r3" rows="3"></textarea>
+      <label for="r4">ما سؤالك المتبقي؟</label>
+      <textarea id="r4" rows="3"></textarea>
+      <div class="form-actions">
+        <button type="submit" class="cta">💾 حفظ</button>
+        <button type="button" class="btn-secondary" id="downloadReflect">⬇️ تحميل</button>
+      </div>
+    </form>
+    <div id="reflectMsg" style="text-align:center;margin-top:14px;font-weight:700;color:var(--success)"></div>
+  </section>
+
+  <section id="view-about" class="view" hidden>
+    <h2 class="section-title">ℹ️ عن المورد والترخيص</h2>
+    <div style="background:var(--surface);padding:26px;border-radius:var(--radius);box-shadow:var(--shadow)">
+      <h3 style="color:var(--primary);margin-bottom:12px">📜 ترخيص CC BY-SA 4.0</h3>
+      <p>هذا المورد التعليمي مفتوح، ويُسمح لك بـ:</p>
+      <ul style="padding-right:22px;margin:14px 0">
+        <li>✅ الاستخدام الحر لأي غرض تعليمي.</li>
+        <li>✅ التعديل وإضافة محتوى جديد.</li>
+        <li>✅ الدمج مع موارد أخرى.</li>
+        <li>✅ إعادة النشر والتوزيع.</li>
+        <li>⚠️ بشرط نسب العمل للمؤلف الأصلي.</li>
+        <li>⚠️ بشرط مشاركة أي تعديل بنفس الترخيص.</li>
+      </ul>
+      <h3 style="color:var(--primary);margin:20px 0 12px">🔓 كيف تعيد الاستخدام؟</h3>
+      <ol style="padding-right:22px">
+        <li>ادخل إلى <a href="/admin/" style="color:var(--primary)">لوحة التحكم</a>.</li>
+        <li>سجّل دخولك كمحرر.</li>
+        <li>أضف أو عدّل المحتوى.</li>
+        <li>اضغط Publish — يُحفظ في GitHub فورًا.</li>
+      </ol>
+      <h3 style="color:var(--primary);margin:20px 0 12px">👥 المساهمون</h3>
+      <ul id="contributorsList" style="padding-right:22px"></ul>
+    </div>
+  </section>
+</main>
+
+<footer>
+  <p>© 2025 المعلمة أسماء قباجة – مدرسة الأهرام الأساسية للبنات | مديرية التربية والتعليم – الخليل</p>
+  <p>رخصة <a href="https://creativecommons.org/licenses/by-sa/4.0/" target="_blank">CC BY-SA 4.0</a> – مورد تعليمي مفتوح</p>
+</footer>
+
+<script>
+let DATA={site:{},organelles:[],questions:[],contributors:[]};
+
+async function loadAll(){
+  try{
+    const [site,orgs,qs,contrib]=await Promise.all([
+      fetch('/content/site.json').then(r=>r.json()).catch(()=>({})),
+      fetch('/content/organelles.json').then(r=>r.json()).catch(()=>({})),
+      fetch('/content/questions.json').then(r=>r.json()).catch(()=>({})),
+      fetch('/content/contributors.json').then(r=>r.json()).catch(()=>({}))
+    ]);
+    DATA={site,organelles:orgs.organelles||[],questions:qs.questions||[],contributors:contrib.contributors||[]};
+    renderAll();
+    document.getElementById('loading').style.display='none';
+    document.getElementById('view-home').hidden=false;
+  }catch(e){
+    document.getElementById('loading').innerHTML='❌ تعذر تحميل المحتوى';
+    console.error(e);
+  }
+}
+
+function renderAll(){
+  document.getElementById('heroTitle').textContent=DATA.site.hero?.title||'مرحبًا!';
+  document.getElementById('heroLead').textContent=DATA.site.hero?.lead||'';
+  document.getElementById('metaCards').innerHTML=(DATA.site.meta||[]).map(m=>
+    `<article class="meta-card"><h3>${m.title}</h3><p>${m.body}</p></article>`).join('');
+
+  const orgList=document.getElementById('organelleList');
+  orgList.innerHTML=DATA.organelles.map((o,i)=>
+    `<button class="organelle-btn" data-idx="${i}"><span style="font-size:1.3rem">${o.icon||'🔵'}</span><span>${o.name}</span></button>`).join('');
+  orgList.querySelectorAll('.organelle-btn').forEach(btn=>{
+    btn.onclick=()=>showOrganelle(parseInt(btn.dataset.idx),btn);
+  });
+
+  document.getElementById('contributorsList').innerHTML=DATA.contributors.map(c=>
+    `<li><strong>${c.name}</strong> — ${c.role} (${c.school||''})</li>`).join('');
+
+  resetQuiz();
+}
+
+function showOrganelle(idx,btn){
+  document.querySelectorAll('.organelle-btn').forEach(b=>b.classList.remove('active'));
+  btn.classList.add('active');
+  const o=DATA.organelles[idx];
+  document.getElementById('organelleDetail').innerHTML=`
+    <span style="font-size:3.5rem;text-align:center;display:block;margin:10px 0">${o.icon||'🔵'}</span>
+    <h3>${o.name}</h3><p>${o.desc||''}</p>
+    <div class="func-box"><strong>🔧 الوظيفة:</strong> ${o.func||''}</div>
+    <div class="fact-box"><strong>💡 هل تعلم؟</strong> ${o.fact||''}</div>`;
+}
+
+function switchView(name){
+  document.querySelectorAll('.view').forEach(v=>v.hidden=true);
+  document.querySelectorAll('.nav-btn').forEach(b=>b.classList.toggle('active',b.dataset.view===name));
+  const t=document.getElementById('view-'+name);
+  if(t){t.hidden=false;window.scrollTo({top:0,behavior:'smooth'});}
+}
+document.querySelectorAll('.nav-btn').forEach(b=>b.onclick=()=>switchView(b.dataset.view));
+document.querySelectorAll('[data-goto]').forEach(b=>b.onclick=()=>switchView(b.dataset.goto));
+
+let fontLevel=1;
+document.getElementById('fontUp').onclick=()=>{
+  fontLevel=Math.min(3,fontLevel+1);
+  document.body.classList.remove('font-lg','font-xl');
+  if(fontLevel===2)document.body.classList.add('font-lg');
+  if(fontLevel===3)document.body.classList.add('font-xl');
+};
+document.getElementById('fontDown').onclick=()=>{
+  fontLevel=Math.max(1,fontLevel-1);
+  document.body.classList.remove('font-lg','font-xl');
+  if(fontLevel===2)document.body.classList.add('font-lg');
+  if(fontLevel===3)document.body.classList.add('font-xl');
+};
+document.getElementById('contrast').onclick=()=>document.body.classList.toggle('high-contrast');
+
+const canvas=document.getElementById('simCanvas');
+const ctx=canvas.getContext('2d');
+let cellType='plant',rotation=0,autoRotate=true,dragging=false,lastX=0;
+function resizeCanvas(){
+  const r=canvas.getBoundingClientRect();
+  const dpr=window.devicePixelRatio||1;
+  canvas.width=r.width*dpr;canvas.height=r.height*dpr;
+  ctx.setTransform(dpr,0,0,dpr,0,0);
+}
+setTimeout(resizeCanvas,300);
+window.addEventListener('resize',resizeCanvas);
+
+function drawCell(){
+  const w=canvas.width/(window.devicePixelRatio||1);
+  const h=canvas.height/(window.devicePixelRatio||1);
+  ctx.clearRect(0,0,w,h);
+  const cx=w/2,cy=h/2;
+  const bg=ctx.createRadialGradient(cx,cy,0,cx,cy,Math.max(w,h));
+  bg.addColorStop(0,'#1a1a2e');bg.addColorStop(1,'#0f0f1a');
+  ctx.fillStyle=bg;ctx.fillRect(0,0,w,h);
+  ctx.save();ctx.translate(cx,cy);ctx.rotate(rotation);
+  const isPlant=cellType==='plant';
+  const R=Math.min(w,h)*0.32;
+  if(isPlant){
+    ctx.beginPath();
+    for(let i=0;i<=64;i++){
+      const a=(i/64)*Math.PI*2,r=R*1.25+Math.sin(a*6)*4;
+      const x=Math.cos(a)*r,y=Math.sin(a)*r;
+      i===0?ctx.moveTo(x,y):ctx.lineTo(x,y);
+    }
+    ctx.closePath();ctx.fillStyle='#4a7c3a';ctx.fill();
+    ctx.strokeStyle='#6b9c5a';ctx.lineWidth=3;ctx.stroke();
+  }
+  ctx.beginPath();
+  for(let i=0;i<=64;i++){
+    const a=(i/64)*Math.PI*2,r=R+Math.sin(a*5)*3;
+    const x=Math.cos(a)*r,y=Math.sin(a)*r;
+    i===0?ctx.moveTo(x,y):ctx.lineTo(x,y);
+  }
+  ctx.closePath();
+  ctx.fillStyle=isPlant?'rgba(180,230,140,.7)':'rgba(255,200,180,.7)';
+  ctx.fill();ctx.strokeStyle=isPlant?'#8bc34a':'#ff8a65';ctx.lineWidth=2.5;ctx.stroke();
+  ctx.beginPath();ctx.arc(0,0,R*0.95,0,Math.PI*2);
+  ctx.fillStyle=isPlant?'rgba(220,245,200,.6)':'rgba(255,235,225,.6)';ctx.fill();
+  drawO(-R*0.15,-R*0.1,R*0.28,'#7e57c2','🧠');
+  drawO(R*0.4,R*0.2,R*0.14,'#ef5350','⚡');
+  drawO(-R*0.45,R*0.15,R*0.13,'#ef5350','⚡');
+  drawO(0,R*0.5,R*0.1,'#42a5f5','💧');
+  if(isPlant){
+    drawO(R*0.35,-R*0.4,R*0.15,'#66bb6a','🌿');
+    drawO(-R*0.5,-R*0.35,R*0.13,'#66bb6a','🌿');
+  }
+  for(let i=0;i<8;i++){
+    const a=(i/8)*Math.PI*2,r=R*0.55;
+    drawO(Math.cos(a)*r,Math.sin(a)*r,R*0.05,'#ffb74d','');
+  }
+  ctx.restore();
+}
+function drawO(x,y,r,c,e){
+  ctx.beginPath();ctx.arc(x,y,r,0,Math.PI*2);
+  ctx.fillStyle=c;ctx.fill();
+  ctx.strokeStyle='rgba(255,255,255,.5)';ctx.lineWidth=1.5;ctx.stroke();
+  if(e&&r>10){ctx.font=`${r}px serif`;ctx.textAlign='center';ctx.textBaseline='middle';ctx.fillText(e,x,y);}
+}
+function animate(){
+  if(autoRotate&&!dragging)rotation+=0.004;
+  drawCell();requestAnimationFrame(animate);
+}
+animate();
+canvas.addEventListener('mousedown',e=>{dragging=true;lastX=e.clientX;});
+canvas.addEventListener('mousemove',e=>{if(dragging){rotation+=(e.clientX-lastX)*0.01;lastX=e.clientX;}});
+canvas.addEventListener('mouseup',()=>dragging=false);
+canvas.addEventListener('mouseleave',()=>dragging=false);
+canvas.addEventListener('touchstart',e=>{dragging=true;lastX=e.touches[0].clientX;},{passive:true});
+canvas.addEventListener('touchmove',e=>{if(dragging){rotation+=(e.touches[0].clientX-lastX)*0.01;lastX=e.touches[0].clientX;}},{passive:true});
+canvas.addEventListener('touchend',()=>dragging=false);
+document.querySelectorAll('[data-cell]').forEach(b=>b.onclick=()=>{
+  document.querySelectorAll('[data-cell]').forEach(x=>x.classList.remove('active'));
+  b.classList.add('active');cellType=b.dataset.cell;
+});
+document.getElementById('btnRotate').onclick=e=>{autoRotate=!autoRotate;e.target.classList.toggle('active',autoRotate);};
+document.getElementById('btnReset').onclick=()=>{rotation=0;};
+
+let currentQ=0,correctCount=0,answered=false;
+function resetQuiz(){currentQ=0;correctCount=0;answered=false;renderQuiz();updateProgress();}
+function renderQuiz(){
+  const c=document.getElementById('quizContainer');
+  if(!DATA.questions.length){c.innerHTML='<p>لا توجد أسئلة بعد.</p>';return;}
+  if(currentQ>=DATA.questions.length){
+    const pct=Math.round((correctCount/DATA.questions.length)*100);
+    c.innerHTML=`<div class="quiz-finish"><h3 style="color:var(--primary)">🎉 انتهى!</h3>
+      <span class="score-big">${correctCount}/${DATA.questions.length}</span>
+      <p>${pct>=80?'🌟 ممتاز!':pct>=60?'👍 جيد!':'💪 راجع أكثر.'}</p>
+      <button class="cta" onclick="resetQuiz()" style="margin-top:14px">🔄 إعادة</button></div>`;
+    return;
+  }
+  const q=DATA.questions[currentQ];answered=false;
+  c.innerHTML=`<div class="q-card"><h4>سؤال ${currentQ+1}: ${q.q}</h4>
+    <div class="options">${q.opts.map((o,i)=>`<button class="option-btn" data-i="${i}">${o}</button>`).join('')}</div></div>`;
+  c.querySelectorAll('.option-btn').forEach(b=>b.onclick=()=>checkAns(parseInt(b.dataset.i)));
+}
+function checkAns(i){
+  if(answered)return;answered=true;
+  const q=DATA.questions[currentQ];
+  document.querySelectorAll('.option-btn').forEach((b,idx)=>{
+    b.disabled=true;
+    if(idx===q.correct)b.classList.add('correct');
+    if(idx===i&&i!==q.correct)b.classList.add('wrong');
+  });
+  if(i===q.correct)correctCount++;
+  updateProgress();
+  setTimeout(()=>{currentQ++;renderQuiz();},1400);
+}
+function updateProgress(){
+  if(!DATA.questions.length)return;
+  const pct=Math.round(((currentQ+(answered?1:0))/DATA.questions.length)*100);
+  document.getElementById('progressFill').style.width=pct+'%';
+  document.getElementById('progressText').textContent=pct+'%';
+}
+
+document.getElementById('reflectionForm').onsubmit=e=>{
+  e.preventDefault();
+  const d={date:new Date().toLocaleString('ar-EG'),r1:r1.value,r2:r2.value,r3:r3.value,r4:r4.value};
+  localStorage.setItem('cellReflection',JSON.stringify(d));
+  document.getElementById('reflectMsg').textContent='✅ تم الحفظ!';
+  setTimeout(()=>document.getElementById('reflectMsg').textContent='',3000);
+};
+document.getElementById('downloadReflect').onclick=()=>{
+  const t=`📝 دفتر تأمل - عالم الخلية\n${new Date().toLocaleString('ar-EG')}\n\n1) ${r1.value}\n\n2) ${r2.value}\n\n3) ${r3.value}\n\n4) ${r4.value}`;
+  const b=new Blob([t],{type:'text/plain;charset=utf-8'});
+  const a=document.createElement('a');a.href=URL.createObjectURL(b);a.download='تأمل.txt';a.click();
+};
+
+loadAll();
+</script>
+</body>
+</html>
