@@ -1,0 +1,87 @@
+backend:
+  name: git-gateway
+  branch: main
+
+locale: ar
+
+media_folder: "static/images"
+public_folder: "/images"
+
+collections:
+
+  - name: "site"
+    label: "⚙️ إعدادات الموقع"
+    files:
+      - name: "site"
+        label: "الصفحة الرئيسية"
+        file: "content/site.json"
+        fields:
+          - label: "قسم البطل"
+            name: "hero"
+            widget: "object"
+            fields:
+              - {label: "العنوان", name: "title", widget: "string"}
+              - {label: "الوصف", name: "lead", widget: "text"}
+          - label: "بطاقات المعلومات"
+            name: "meta"
+            widget: "list"
+            fields:
+              - {label: "العنوان", name: "title", widget: "string"}
+              - {label: "المحتوى", name: "body", widget: "text"}
+
+  - name: "organelles"
+    label: "🔬 العضيات"
+    files:
+      - name: "organelles"
+        label: "قائمة العضيات"
+        file: "content/organelles.json"
+        fields:
+          - label: "العضيات"
+            name: "organelles"
+            widget: "list"
+            summary: "{{fields.icon}} {{fields.name}}"
+            fields:
+              - {label: "الاسم", name: "name", widget: "string"}
+              - {label: "الرمز (Emoji)", name: "icon", widget: "string", default: "🔵"}
+              - {label: "الوصف", name: "desc", widget: "text"}
+              - {label: "الوظيفة", name: "func", widget: "text"}
+              - {label: "هل تعلم؟", name: "fact", widget: "text"}
+
+  - name: "questions"
+    label: "📝 الأسئلة"
+    files:
+      - name: "questions"
+        label: "بنك الأسئلة"
+        file: "content/questions.json"
+        fields:
+          - label: "الأسئلة"
+            name: "questions"
+            widget: "list"
+            summary: "{{fields.q}}"
+            fields:
+              - {label: "نص السؤال", name: "q", widget: "string"}
+              - label: "الخيارات"
+                name: "opts"
+                widget: "list"
+                field: {label: "خيار", name: "opt", widget: "string"}
+              - label: "الإجابة الصحيحة (0-3)"
+                name: "correct"
+                widget: "number"
+                default: 0
+                min: 0
+                max: 3
+
+  - name: "contributors"
+    label: "👥 المساهمون"
+    files:
+      - name: "contributors"
+        label: "قائمة المساهمين"
+        file: "content/contributors.json"
+        fields:
+          - label: "المساهمون"
+            name: "contributors"
+            widget: "list"
+            fields:
+              - {label: "الاسم", name: "name", widget: "string"}
+              - {label: "الدور", name: "role", widget: "string"}
+              - {label: "المدرسة", name: "school", widget: "string", required: false}
